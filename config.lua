@@ -65,6 +65,15 @@ Config.Stables = {
 
 Config.Horses = {
 	{
+		name = "Arabian",
+		["A_C_Horse_Arabian_White"] = {"White", 1500, 1500},
+		["A_C_Horse_Arabian_RoseGreyBay"] = {"Rose Grey Bay", 1350, 12350},
+		["A_C_Horse_Arabian_Black"] = {"Black", 1250, 1250},
+		["A_C_Horse_Arabian_Grey"] = {"Grey", 1150, 1150},
+		["A_C_Horse_Arabian_WarpedBrindle_PC"] = {"Warped Brindle", 650, 650},
+		["A_C_Horse_Arabian_RedChestnut"] = {"Red Chestnut", 350, 350},
+	},
+	{
 		name = "Ardennes",
 		["A_C_Horse_Ardennes_IronGreyRoan"] = {"Iron Grey Roan", 1200, 1200},
 		["A_C_Horse_Ardennes_StrawberryRoan"] = {"Strawberry Roan", 450, 450},
