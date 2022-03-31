@@ -1,6 +1,6 @@
 -- Variables
 
-local QBCore = exports['qbr-core']:GetCoreObject()
+
 cam = nil
 hided = false
 spawnedCamera = nil
@@ -156,7 +156,7 @@ local function SetHorseName(data)
     )
     Wait(200)
     local HorseName = ""
-	
+
 	CreateThread(function()
 		AddTextEntry('FMMC_MPM_NA', Lang:t('stable.set_name'))
 		DisplayOnscreenKeyboard(1, "FMMC_MPM_NA", "", "", "", "", "", 30)
@@ -178,8 +178,8 @@ local function SetHorseName(data)
         )
 
         Wait(1000)
-        TriggerServerEvent("qbr-stable:AskForMyHorses") 
-		end	
+        TriggerServerEvent("qbr-stable:AskForMyHorses")
+		end
     end)
 end
 
@@ -203,8 +203,8 @@ local function CloseStable()
 		AcsLuggageUsing
 	}
 	local DadosEncoded = json.encode(dados)
-	if DadosEncoded ~= "{}" then            
-		TriggerServerEvent("qbr-stable:UpdateHorseComponents", dados, IdMyHorse, MyHorse_entity ) 
+	if DadosEncoded ~= "{}" then
+		TriggerServerEvent("qbr-stable:UpdateHorseComponents", dados, IdMyHorse, MyHorse_entity )
 	end
 end
 
@@ -316,7 +316,7 @@ local function InitiateHorse(atCoords)
         end
     end
 
-    if horseModel == "A_C_Horse_MP_Mangy_Backup" then     
+    if horseModel == "A_C_Horse_MP_Mangy_Backup" then
         NativeSetPedComponentEnabled(entity, 0x106961A8) --sela
         NativeSetPedComponentEnabled(entity, 0x508B80B9) --blanket
     end
@@ -339,7 +339,7 @@ local function WhistleHorse()
             else
                 TaskGoToEntity(SpawnplayerHorse, PlayerPedId(), -1, 7.2, 2.0, 0, 0)
             end
-        end   
+        end
     else
         TriggerServerEvent('qbr-stable:CheckSelectedHorse')
         Wait(100)
@@ -350,7 +350,7 @@ end
 local function fleeHorse(playerHorse)
     TaskAnimalFlee(SpawnplayerHorse, PlayerPedId(), -1)
     Wait(5000)
-    DeleteEntity(SpawnplayerHorse)    
+    DeleteEntity(SpawnplayerHorse)
     Wait(1000)
     SpawnplayerHorse = 0
 end
@@ -559,7 +559,7 @@ RegisterNUICallback("loadHorse", function(data)
 	if MyHorse_entity ~= nil then
 		DeleteEntity(MyHorse_entity)
 		MyHorse_entity = nil
-	end		
+	end
 
 	local modelHash = GetHashKey(horseModel)
 
@@ -570,9 +570,9 @@ RegisterNUICallback("loadHorse", function(data)
 				Wait(10)
 			end
 		end
-	end    
+	end
 
-	if showroomHorse_entity ~= nil then    
+	if showroomHorse_entity ~= nil then
 		DeleteEntity(showroomHorse_entity)
 		showroomHorse_entity = nil
 	end
@@ -590,7 +590,7 @@ end)
 RegisterNUICallback("loadMyHorse", function(data)
 	local horseModel = data.horseModel
 	IdMyHorse = data.IdHorse
-	
+
 	if showroomHorse_model == horseModel then
 		return
 	end
@@ -793,14 +793,14 @@ CreateThread(function()
 			WhistleHorse()
 			Wait(10000) --Flood Protection? i think yes zoot
         end
-		
-        if Citizen.InvokeNative(0x91AEF906BCA88877, 0, 0x4216AF06) then -- Control = Horse Flee            
-         --   local horseCheck = Citizen.InvokeNative(0x7912F7FC4F6264B6, PlayerPedId(), myHorse[4])            
+
+        if Citizen.InvokeNative(0x91AEF906BCA88877, 0, 0x4216AF06) then -- Control = Horse Flee
+         --   local horseCheck = Citizen.InvokeNative(0x7912F7FC4F6264B6, PlayerPedId(), myHorse[4])
 			if SpawnplayerHorse ~= 0 then
 				fleeHorse(SpawnplayerHorse)
 			end
-		end		
-    end    
+		end
+    end
 end)
 
 CreateThread(function()
