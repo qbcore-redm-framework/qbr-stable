@@ -68,7 +68,7 @@ RegisterNetEvent("qbr-stable:BuyHorse", function(data, name)
 
 	MySQL.Async.fetchAll('SELECT * FROM horses WHERE `cid`=@cid;', {cid = Playercid}, function(horses)
 		if #horses >= 3 then
-			TriggerClientEvent('QBCore:Notify', src, 9, "You can have a maximum of 3 horses!", 2000, 0, 'mp_lobby_textures', 'cross')
+			TriggerClientEvent('QBCore:Notify', src, 9, "You can have a maximum of 3 horses!", 5000, 0, 'mp_lobby_textures', 'cross', 'COLOR_WHITE')
 			return
 		end
 		Wait(200)
