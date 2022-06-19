@@ -78,14 +78,14 @@ RegisterNetEvent("qbr-stable:BuyHorse", function(data, name)
 				local bank = Player.Functions.RemoveMoney("bank", data.Gold, "stable-bought-horse")
 				TriggerEvent('qbr-log:server:CreateLog', 'shops', 'Stable', 'green', "**"..GetPlayerName(Player.PlayerData.source) .. " (citizenid: "..Player.PlayerData.citizenid.." | id: "..Player.PlayerData.source..")** bought a horse for $"..data.Gold..".")
 			else
-				print('not enough money')
+				TriggerClientEvent('QBCore:Notify', src, 8, 'not enough money', 5000, 'not enough money in your Bank!', 'satchel_textures', 'animal_horse', 'COLOR_WHITE')
 				return
 			end
 		else
 			if Player.Functions.RemoveMoney("cash", data.Dollar, "stable-bought-horse") then
 				TriggerEvent('qbr-log:server:CreateLog', 'shops', 'Stable', 'green', "**"..GetPlayerName(Player.PlayerData.source) .. " (citizenid: "..Player.PlayerData.citizenid.." | id: "..Player.PlayerData.source..")** bought a horse for $"..data.Dollar..".")
 			else
-				print('not enough money')
+				TriggerClientEvent('QBCore:Notify', src, 8, 'not enough money', 5000, 'not enough money in your Wallet!', 'satchel_textures', 'animal_horse', 'COLOR_WHITE')
 				return
 			end
 		end
