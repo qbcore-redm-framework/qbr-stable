@@ -18,7 +18,7 @@ RegisterNetEvent("qbr-stable:UpdateHorseComponents", function(components, idhors
 	local Player = exports['qbr-core']:GetPlayer(src)
 	local Playercid = Player.PlayerData.citizenid
 	local id = idhorse
-	MySQL.Async.execute("UPDATE horses SET `components`=@components WHERE `cid`=@cid AND `id`=@id", {components = encodedComponents, cid = Playercid, id = id}, function(done)
+	MySQL.query("UPDATE horses SET `components`=@components WHERE `cid`=@cid AND `id`=@id", {components = encodedComponents, cid = Playercid, id = id}, function(done)
 		TriggerClientEvent("qbr-stable:client:UpdadeHorseComponents", src, MyHorse_entity, components)
 	end)
 end)
@@ -28,7 +28,7 @@ RegisterNetEvent("qbr-stable:CheckSelectedHorse", function()
 	local Player = exports['qbr-core']:GetPlayer(src)
 	local Playercid = Player.PlayerData.citizenid
 
-	MySQL.Async.fetchAll('SELECT * FROM horses WHERE `cid`=@cid;', {cid = Playercid}, function(horses)
+	MySQL.query('SELECT * FROM horses WHERE `cid`=@cid;', {cid = Playercid}, function(horses)
 		if #horses ~= 0 then
 			for i = 1, #horses do
 				if horses[i].selected == 1 then
@@ -45,14 +45,14 @@ RegisterNetEvent("qbr-stable:AskForMyHorses", function()
 	local components = nil
 	local Player = exports['qbr-core']:GetPlayer(src)
 	local Playercid = Player.PlayerData.citizenid
-	MySQL.Async.fetchAll('SELECT * FROM horses WHERE `cid`=@cid;', {cid = Playercid}, function(horses)
+	MySQL.query('SELECT * FROM horses WHERE `cid`=@cid;', {cid = Playercid}, function(horses)
 		if horses[1]then
 			horseId = horses[1].id
 		else
 			horseId = nil
 		end
 
-		MySQL.Async.fetchAll('SELECT * FROM horses WHERE `cid`=@cid;', {cid = Playercid}, function(components)
+		MySQL.query.await('SELECT * FROM horses WHERE `cid`=@cid;', {cid = Playercid}, function(components)
 			if components[1] then
 				components = components[1].components
 			end
@@ -66,7 +66,7 @@ RegisterNetEvent("qbr-stable:BuyHorse", function(data, name)
 	local Player = exports['qbr-core']:GetPlayer(src)
 	local Playercid = Player.PlayerData.citizenid
 
-	MySQL.Async.fetchAll('SELECT * FROM horses WHERE `cid`=@cid;', {cid = Playercid}, function(horses)
+	MySQL.query('SELECT * FROM horses WHERE `cid`=@cid;', {cid = Playercid}, function(horses)
 		if #horses >= 3 then
 			TriggerClientEvent('QBCore:Notify', src, 9, "You can have a maximum of 3 horses!", 5000, 0, 'mp_lobby_textures', 'cross', 'COLOR_WHITE')
 			return
@@ -89,7 +89,7 @@ RegisterNetEvent("qbr-stable:BuyHorse", function(data, name)
 				return
 			end
 		end
-	MySQL.Async.execute('INSERT INTO horses (`cid`, `name`, `model`) VALUES (@Playercid, @name, @model);',
+	MySQL.query.await('INSERT INTO horses (`cid`, `name`, `model`) VALUES (@Playercid, @name, @model);',
 		{
 			Playercid = Playercid,
 			name = tostring(name),
@@ -104,16 +104,16 @@ RegisterNetEvent("qbr-stable:SelectHorseWithId", function(id)
 	local src = source
 	local Player = exports['qbr-core']:GetPlayer(src)
 	local Playercid = Player.PlayerData.citizenid
-	MySQL.Async.fetchAll('SELECT * FROM horses WHERE `cid`=@cid;', {cid = Playercid}, function(horse)
+	MySQL.query('SELECT * FROM horses WHERE `cid`=@cid;', {cid = Playercid}, function(horse)
 		for i = 1, #horse do
 			local horseID = horse[i].id
-			MySQL.Async.execute("UPDATE horses SET `selected`='0' WHERE `cid`=@cid AND `id`=@id", {cid = Playercid,  id = horseID}, function(done)
+			MySQL.query("UPDATE horses SET `selected`='0' WHERE `cid`=@cid AND `id`=@id", {cid = Playercid,  id = horseID}, function(done)
 			end)
 
 			Wait(300)
 
 			if horse[i].id == id then
-				MySQL.Async.execute("UPDATE horses SET `selected`='1' WHERE `cid`=@cid AND `id`=@id", {cid = Playercid, id = id}, function(done)
+				MySQL.query("UPDATE horses SET `selected`='1' WHERE `cid`=@cid AND `id`=@id", {cid = Playercid, id = id}, function(done)
 					TriggerClientEvent("VP:HORSE:SetHorseInfo", src, horse[i].model, horse[i].name, horse[i].components)
 				end)
 			end
@@ -126,12 +126,12 @@ RegisterNetEvent("qbr-stable:SellHorseWithId", function(id)
 	local src = source
 	local Player = exports['qbr-core']:GetPlayer(src)
 	local Playercid = Player.PlayerData.citizenid
-	MySQL.Async.fetchAll('SELECT * FROM horses WHERE `cid`=@cid;', {cid = Playercid}, function(horses)
+	MySQL.query('SELECT * FROM horses WHERE `cid`=@cid;', {cid = Playercid}, function(horses)
 
 		for i = 1, #horses do
 		   if tonumber(horses[i].id) == tonumber(id) then
 				modelHorse = horses[i].model
-				MySQL.Async.fetchAll('DELETE FROM horses WHERE `cid`=@cid AND`id`=@id;', {cid = Playercid,  id = id}, function(result)
+				MySQL.query('DELETE FROM horses WHERE `cid`=@cid AND`id`=@id;', {cid = Playercid,  id = id}, function(result)
 				end)
 			end
 		end
