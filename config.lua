@@ -1,5 +1,7 @@
 Config = {}
 
+Config.MaxNumberOfHorses = 3
+
 Config.Stables = {
 	Valentine = {
 		Pos = vector3(-367.73, 787.72, 116.26),

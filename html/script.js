@@ -59,11 +59,11 @@ window.addEventListener('message', function(event) {
                         $(`#page_shop .scroll-container .collapsible #${index} .collapsible-body #${_}`).hover(function() {                       
                             $( this ).click(function() {                        
                              
-
+                                
                                 $(Modelhorse).addClass("selected");
                                 $('.selected').removeClass("selected"); 
 
-                                Modelhorse = $(this).attr('id');                       
+                                Modelhorse = $(this).attr('id');
                                 $(this).addClass('selected');
 
                                 $.post('https://qbr-stable/loadHorse', JSON.stringify({ horseModel: $(this).attr('id') }));
@@ -135,15 +135,9 @@ window.addEventListener('message', function(event) {
             `);
             
             $(`#page_myhorses .scroll-container .collapsible #${HorseID}`).hover(function() {  
-                $( this ).click(function() {                    
-                    console.log('clicou') 
-                    let HorseSEID
-                    $(HorseID).addClass("selected");
+                $( this ).click(function() {
                     $('.selected').removeClass("selected"); 
-
-                    HorseSEID = $(HorseID).attr('id');             
-                    $(HorseID).addClass('selected');
-
+                    $('#'+HorseID).addClass("selected");
                     $.post('https://qbr-stable/loadMyHorse', JSON.stringify({ IdHorse: HorseID, horseModel: HorseIdModel, HorseComp: componentsh}));
                 });                         
             }, function() {});
@@ -157,13 +151,14 @@ function confirm(){
 
     $('#button-customization').addClass("disabled");
     $('#page_myhorses .scroll-container .collapsible').html('');
-    $('#page_shop .scroll-container .collapsible').html('');
+    //$('#page_shop .scroll-container .collapsible').html('');
     $("#creatormenu").fadeOut(500);
 }
 
 var currentPage = 'page_myhorses';
 
 $('.menu-selectb').on('click', function() {
+
     $(`#${currentPage}`).hide();
 
     currentPage = $(this).data('target');
@@ -250,7 +245,7 @@ $(".input-number").on("change paste keyup", function() {
 function buyHorse(Modelhor, price, isGold) {        
     $('#button-customization').addClass("disabled");
     $('#page_myhorses .scroll-container .collapsible').html('');
-    $('#page_shop .scroll-container .collapsible').html('');
+    //$('#page_shop .scroll-container .collapsible').html('');
     $("#creatormenu").fadeOut(500);
 
     if (isGold) {        
@@ -261,7 +256,7 @@ function buyHorse(Modelhor, price, isGold) {
 }
 
 
-function SelectHorse(IdHorse) {    
+function SelectHorse(IdHorse) {
     $.post('https://qbr-stable/selectHorse', JSON.stringify({ horseID: IdHorse }))    
 }
 
@@ -271,7 +266,7 @@ function SellHorse(IdHorse) {
 
     $('#button-customization').addClass("disabled");
     $('#page_myhorses .scroll-container .collapsible').html('');
-    $('#page_shop .scroll-container .collapsible').html('');
+    //$('#page_shop .scroll-container .collapsible').html('');
     $("#creatormenu").fadeOut(500);
 
 }

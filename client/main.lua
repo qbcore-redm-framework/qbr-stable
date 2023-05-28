@@ -166,19 +166,18 @@ local function SetHorseName(data)
 		end
 		if (GetOnscreenKeyboardResult()) then
             HorseName = GetOnscreenKeyboardResult()
-            TriggerServerEvent('qbr-stable:BuyHorse', data, HorseName)
-
-
+			TriggerServerEvent('qbr-stable:BuyHorse', data, HorseName)
+			Wait(1500)
+			SendNUIMessage(
+				{
+					action = "show",
+					shopData = getShopData()
+				}
+			)
+            
             SetNuiFocus(true, true)
-            SendNUIMessage(
-            {
-                action = "show",
-                shopData = getShopData()
-            }
-        )
-
-        Wait(1000)
-        TriggerServerEvent("qbr-stable:AskForMyHorses")
+			Wait(200)
+			TriggerServerEvent("qbr-stable:AskForMyHorses")
 		end
     end)
 end
@@ -794,7 +793,7 @@ CreateThread(function()
 			Wait(10000) --Flood Protection? i think yes zoot
         end
 
-        if Citizen.InvokeNative(0x91AEF906BCA88877, 0, 0x4216AF06) then -- Control = Horse Flee
+        if Citizen.InvokeNative(0x91AEF906BCA88877, 0, 0xB2F377E8) then -- Control = Horse Flee
          --   local horseCheck = Citizen.InvokeNative(0x7912F7FC4F6264B6, PlayerPedId(), myHorse[4])
 			if SpawnplayerHorse ~= 0 then
 				fleeHorse(SpawnplayerHorse)
